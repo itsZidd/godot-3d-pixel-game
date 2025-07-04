@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://c446yfsjlqrq2"]
+
+[ext_resource type="Environment" uid="uid://dttijayu86j6e" path="res://main_environment.tres" id="1_ig7tw"]
+[ext_resource type="PhysicsMaterial" uid="uid://c7kovoy67n3rh" path="res://physics_material_main.tres" id="2_0xm2m"]
+[ext_resource type="BoxMesh" uid="uid://h414iga8wqx2" path="res://box_mesh_floor_main.tres" id="3_h2yge"]
+[ext_resource type="Shape3D" uid="uid://bmianrn22vx2m" path="res://box_shape_col_main.tres" id="4_1bvp3"]
+
+[node name="MainScene" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("1_ig7tw")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+physics_material_override = ExtResource("2_0xm2m")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = ExtResource("3_h2yge")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = ExtResource("4_1bvp3")

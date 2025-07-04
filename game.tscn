@@ -1,0 +1,79 @@
+[gd_scene load_steps=10 format=3 uid="uid://cpv2qwijafndl"]
+
+[ext_resource type="Script" uid="uid://dyps2yaagdtlr" path="res://game.gd" id="1_feb5d"]
+[ext_resource type="PackedScene" uid="uid://c446yfsjlqrq2" path="res://main.tscn" id="2_fc0e3"]
+[ext_resource type="Script" uid="uid://dti53wo5cxi3v" path="res://camera_main.gd" id="3_7jktm"]
+[ext_resource type="Texture2D" uid="uid://bpdsjvvh72nni" path="res://curve_texture_dust_particles.tres" id="4_7jktm"]
+[ext_resource type="Material" uid="uid://b2dmvhuk58q5b" path="res://material_dust_particles.tres" id="5_ryrav"]
+[ext_resource type="Script" uid="uid://ddo64mfoin1dq" path="res://sun_light.gd" id="6_ryrav"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_eow3j"]
+emission_shape_scale = Vector3(10, 10, 1)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+gravity = Vector3(0, -2, 0)
+damping_min = 0.6
+damping_max = 0.6
+alpha_curve = ExtResource("4_7jktm")
+turbulence_enabled = true
+turbulence_noise_strength = 0.25
+turbulence_influence_min = 0.01
+turbulence_influence_max = 0.02
+turbulence_initial_displacement_min = 1.49012e-06
+turbulence_initial_displacement_max = 1.49012e-06
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_j5wjh"]
+material = ExtResource("5_ryrav")
+size = Vector2(0.056, 0.056)
+orientation = 2
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_feb5d"]
+viewport_path = NodePath("SubViewport")
+
+[node name="Game" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_feb5d")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+size = Vector2i(640, 360)
+render_target_update_mode = 4
+
+[node name="MainScene" parent="SubViewport" instance=ExtResource("2_fc0e3")]
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport"]
+transform = Transform3D(0.707107, 0.353553, -0.612372, 0, 0.866025, 0.5, 0.707107, -0.353553, 0.612372, -10, 7.5, 12)
+projection = 1
+current = true
+size = 10.0
+near = 0.075
+far = 75.0
+script = ExtResource("3_7jktm")
+
+[node name="DustParticles" type="GPUParticles3D" parent="SubViewport/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.008, -6)
+amount = 64
+lifetime = 8.0
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_eow3j")
+draw_pass_1 = SubResource("PlaneMesh_j5wjh")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewport"]
+transform = Transform3D(0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, 0.5, 0, 0.8, 0)
+shadow_enabled = true
+directional_shadow_blend_splits = true
+script = ExtResource("6_ryrav")
+
+[node name="MainDisplay" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_feb5d")
+stretch_mode = 4

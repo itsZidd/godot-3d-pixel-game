@@ -1,0 +1,10 @@
+[gd_resource type="Environment" load_steps=2 format=3 uid="uid://dttijayu86j6e"]
+
+[ext_resource type="Sky" uid="uid://jiy7kydriiqf" path="res://sky_main.tres" id="1_8gmpv"]
+
+[resource]
+background_mode = 2
+background_energy_multiplier = 1.85
+sky = ExtResource("1_8gmpv")
+ssao_enabled = true
+glow_enabled = true
